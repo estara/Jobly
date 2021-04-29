@@ -39,14 +39,70 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
+    let res = await this.request(`/companies/${handle}`);
     return res.company;
   }
 
-  // obviously, you'll add a lot here ...
+  // get list of companies
+  static async getCompanies(formData = false) {
+    let res
+    if (formData) {
+      res = await this.request(`/companies`, formData);
+    }
+    res = await this.request(`/companies`);
+    return res.companies;
+  }
+
+  // get user from backend
+  static async getUser(username) {
+    let res = await this.request(`/users/${username}`);
+    return res.user;
+  }
+
+  // update user
+  static async updateUser(username, formData) {
+    let res = await this.request(`users/${username}`, formData, "PATCH")
+    return res.user
+  }
+
+  //send job application to backend
+  static async apply(username, job) {
+    await this.request(`/${username}/jobs/${job}`, {}, "POST");
+  }
+
+  // get jobs from backend
+  static async getJobs(formData = false) {
+    let res
+    if (formData) {
+      res = await this.request(`/jobs`, formData);
+    }
+    res = await this.request(`/jobs`);
+    return res.jobs;
+  }
+  
+  // login user
+  static async login(formData) {
+    let res = await this.request(`/auth/token`, formData, "POST");
+    this.token = res.token;
+    return this.token;
+  }
+
+  // logout user
+  static logout() {
+    this.token = null;
+  }
+
+  // signup new user
+  static async signup(formData) {
+    let res = await this.request(`/auth/register`, formData, "POST");
+    this.token = res.token;
+    return this.token
+  }
 }
 
-// for now, put token ("testuser" / "password" on class)
+// for now, put token ("testuser" / "password" on class) will be localStorage.getItem(token)
 JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+
+export default JoblyApi;
