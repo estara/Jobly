@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
-import NavBar from './NavBar';
+import React, { useContext, useState } from "react";
 import { Form, Button, FormGroup, Label, Input } from "reactstrap";
 import JoblyApi from './api.js';
 import CompanyCard from './CompanyCard';
+import './CompanyList.css';
+import { CompaniesContext, CompaniesDispatchContext } from "./JoblyContext.js";
 
 // display list of companies
 function CompanyList() {
-    const [companies, setCompanies] = useState(null)
-    const [formData, setFormData] = useState(null)
+    const [formData, setFormData] = useState({})
+    const {companies} = useContext(CompaniesContext);
+    const {setCompanies} = useContext(CompaniesDispatchContext)
 
-    useEffect(() => {
-        async function onLoad() {
-        const companyList = await JoblyApi.getCompanies();
-        setCompanies(companyList)
-        }
-        onLoad()
-    }, []);
 
     const handleChange = evt => {
         const { name, value } = evt.target;
@@ -30,13 +25,12 @@ function CompanyList() {
         evt.preventDefault();
         const newCompanies = await JoblyApi.getCompanies(formData)
         setCompanies(newCompanies);
-        setFormData(null);
+        setFormData({});
     }
 
     
     return (
         <div>
-        <NavBar />
         <Form inline onSubmit={handleSubmit}>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <Label for="nameLike" className="mr-sm-2">Company Name</Label>
@@ -50,7 +44,7 @@ function CompanyList() {
                 <Label for="maxEmployees" className="mr-sm-2">Max Employees</Label>
                 <Input type="number" name="maxEmployees" id="maxEmployees" onChange={handleChange}/>
             </FormGroup>
-            <Button>Search</Button>
+            <Button>Filter</Button>
         </Form>
         {companies.map(company => (
         <CompanyCard company={company}/>

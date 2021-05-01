@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-// import "./NavBar.css";
+import "./NavBar.css";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
 import { CurrentUserContext } from './JoblyContext';
@@ -25,7 +25,7 @@ function NavBar({ logout }) {
             <NavLink to="/profile">Profile</NavLink>
           </NavItem>
           <NavItem>
-              <NavLink to="/" onClick={logout}>Logout {currentUser.username}</NavLink>
+          {currentUser ? <NavLink to="/" onClick={logout}>Logout {currentUser.username}</NavLink> : <NavLink to="/login">Login</NavLink> }
           </NavItem>
         </Nav>
       </Navbar>

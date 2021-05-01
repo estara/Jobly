@@ -14,17 +14,21 @@ function Login ({ login }) {
     }
     
     // handle form submission
-    const handleSubmit = evt => {
+    async function handleSubmit (evt) {
         evt.preventDefault();
-        login(formData);
+        try{
+        await login(formData);
         setFormData(initialState);
+        } catch (err) {
+            return( <p>Bad login, please try again.</p>)
+        }
     }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="username" onChange={handleChange}/>
-                <input type="password" placeholder="password" onChange={handleChange}/>
+                <input type="text" name="username" placeholder="username" onChange={handleChange}/>
+                <input type="password" name="password" placeholder="password" onChange={handleChange}/>
                 <button type="submit">Submit</button>
             </form>
         </div>

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import { CurrentUserContext } from './JoblyContext';
 
 function PrivateRoute ({ component: Component, ...rest }) {
+    const currentUser = useContext(CurrentUserContext);
+    return(
     <Route 
     {...rest}
     render={props =>
-    localStorage.getItem('token') ? (
+    currentUser.token ? (
         <Component {...props} />
     ) : (
         <Redirect to={{
@@ -16,6 +19,7 @@ function PrivateRoute ({ component: Component, ...rest }) {
     )
     }
     />
+    )
 }
 
 export default PrivateRoute;

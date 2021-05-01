@@ -1,18 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import JoblyApi from './api.js';
-import { CurrentUserContext } from './JoblyContext';
+import { CurrentUserContext, CurrentUserDispatchContext } from './JoblyContext';
 
 function Profile () {
     const {currentUser} = useContext(CurrentUserContext);
-    let user;
-
-    useEffect(() => {
-        async function onLoad() {
-            user = await JoblyApi.getUser(currentUser.username);
-        }
-        onLoad()
-    }, [user])
-    const initialState = {firstName: user.firstName, lastName: user.lastName, email: user.email, password: ""};
+    const {setCurrentUser} = useContext(CurrentUserDispatchContext);
+    const initialState = {firstName: currentUser.firstName, lastName: currentUser.lastName, email: currentUser.email, password: ""};
     const [formData, setFormData] = useState(initialState);
 
     // handle user form input before submit
@@ -28,7 +21,7 @@ function Profile () {
     async function handleSubmit (evt) {
         evt.preventDefault();
         await JoblyApi.updateUser(currentUser.username, formData);
-        user = 'reload me';
+        setCurrentUser('reload me');
         setFormData(initialState);
     }
 
@@ -37,13 +30,13 @@ function Profile () {
             <h2>Profile</h2>
             <form onSubmit={handleSubmit}>
                 <h4>Username</h4>
-                <p>{user.username}</p>
+                <p>{currentUser.username}</p>
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" value={user.firstName} onChange={handleChange}/>
+                <input type="text" name="firstName" value={currentUser.firstName} onChange={handleChange}/>
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" value={user.lastName} onChange={handleChange}/>
+                <input type="text" name="lastName" value={currentUser.lastName} onChange={handleChange}/>
                 <label for="email">Email</label>
-                <input type="text" name="email" value={user.email} onChange={handleChange}/>
+                <input type="text" name="email" value={currentUser.email} onChange={handleChange}/>
                 <label for="password">Confirm password to make changes:</label>
                 <input type="text" name="password" onChange={handleChange}/>
                 <button type="submit">Save Changes</button>

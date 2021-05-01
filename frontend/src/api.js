@@ -39,7 +39,7 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`/companies/${handle}`);
+    let res = await this.request(`companies/${handle}`);
     return res.company;
   }
 
@@ -47,15 +47,16 @@ class JoblyApi {
   static async getCompanies(formData = false) {
     let res
     if (formData) {
-      res = await this.request(`/companies`, formData);
-    }
-    res = await this.request(`/companies`);
-    return res.companies;
+      res = await this.request(`companies`, formData);
+    } else {
+    res = await this.request(`companies`);}
+    return res;
   }
 
   // get user from backend
   static async getUser(username) {
-    let res = await this.request(`/users/${username}`);
+    let res = await this.request(`users/${username}`);
+    console.log(res)
     return res.user;
   }
 
@@ -67,22 +68,22 @@ class JoblyApi {
 
   //send job application to backend
   static async apply(username, job) {
-    await this.request(`/${username}/jobs/${job}`, {}, "POST");
+    await this.request(`${username}/jobs/${job}`, {}, "POST");
   }
 
   // get jobs from backend
   static async getJobs(formData = false) {
     let res
     if (formData) {
-      res = await this.request(`/jobs`, formData);
+      res = await this.request(`jobs`, formData);
     }
-    res = await this.request(`/jobs`);
+    res = await this.request(`jobs`);
     return res.jobs;
   }
   
   // login user
   static async login(formData) {
-    let res = await this.request(`/auth/token`, formData, "POST");
+    let res = await this.request(`auth/token`, formData, "POST");
     this.token = res.token;
     return this.token;
   }
@@ -94,7 +95,7 @@ class JoblyApi {
 
   // signup new user
   static async signup(formData) {
-    let res = await this.request(`/auth/register`, formData, "POST");
+    let res = await this.request(`auth/register`, formData, "POST");
     this.token = res.token;
     return this.token
   }

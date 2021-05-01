@@ -1,5 +1,6 @@
 import React from "react";
 import JobCard from './JobCard';
+import './CompanyList.css';
 
 // display menu
 function JobList({ jobs }) {

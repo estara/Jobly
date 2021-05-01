@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import JobList from './JobList';
 import JoblyApi from './api.js';
 import NavBar from './NavBar';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { JobsContext, JobsDispatchContext } from './JoblyContext';
 
 function Jobs () {
-    const [jobs, setJobs] = useState(null)
+    const {jobs} = useContext(JobsContext);
+    const {setJobs} = useContext(JobsDispatchContext);
     const [formData, setFormData] = useState(null)
-
-    useEffect(() => {
-        function onLoad() {
-            const newJobs = JoblyApi.getJobs();
-            setJobs(newJobs)
-        }
-        onLoad()
-    }, [])
 
     const handleChange = evt => {
         const { name, value } = evt.target;
@@ -35,7 +29,6 @@ function Jobs () {
     
     return (
         <div>
-        <NavBar />
         <Form inline onSubmit={handleSubmit}>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <Label for="nameLike" className="mr-sm-2">Job Title</Label>

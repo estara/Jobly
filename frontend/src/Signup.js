@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Signup ({ signup }) {
-    const initialState = {username: "", password: ""}
+    const initialState = {username: "", firstName: "", lastName: "", email: "", password: ""}
     const [formData, setFormData] = useState(initialState)
     const history = useHistory();
 
@@ -26,8 +26,11 @@ function Signup ({ signup }) {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="username" onChange={handleChange}/>
-                <input type="password" placeholder="password" onChange={handleChange}/>
+                <input type="text" name="username" placeholder="Username" onChange={handleChange} required/>
+                <input type="text" name="firstName" placeholder="First name" onChange={handleChange} required/>
+                <input type="text" name="lastName" placeholder="Last name" onChange={handleChange} required/>
+                <input type="text" name="email" placeholder="Email" onChange={handleChange} required/>
+                <input type="password" name="password" placeholder="Password" onChange={handleChange} required/>
                 <button type="submit">Submit</button>
             </form>
         </div>

@@ -10,13 +10,13 @@ import Signup from './Signup';
 import CompanyList from './CompanyList';
 import CompanyDetail from './CompanyDetail';
 
-function Routes ({ login, signup }) {
+function Routes ({ logout, login, signup }) {
     // const currentUser = useContext(CurrentUserContext);
 
     return (
         <div className="Routes">
           <BrowserRouter>
-            <NavBar />
+            <NavBar logout={logout}/>
             <main>
               <Switch>
                 <Route exact path="/">

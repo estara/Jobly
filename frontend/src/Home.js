@@ -6,7 +6,7 @@ function Home () {
         <div>
             <p>Welcome to Jobly! <br/>
             Please sign in or create an account to see our companies and jobs.</p>
-            <Button color="primary" href="/login">Log In</Button>
+            <Button color="primary" href="/login">Log In</Button><br/>
             <Button color="primary" href="/signup">Sign Up</Button>
         </div>
     )
